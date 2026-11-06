@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Office Together · Presentación</title>
+<meta property="og:title" content="Office Together · Presentación">
+<meta property="og:image" content="slides/1.jpg">
+<link rel="icon" href="avatar-light.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Patrick+Hand&display=swap">
+<style>
+/* Layout: visor a pantalla, con los colores del juego (petróleo, crema, amarillo, naranja). Diapositiva al centro, controles abajo. */
+:root{--bg:#144f54;--bg2:#0f3f43;--cream:#fbf3de;--ink:#141414;--yellow:#ffd93b;--orange:#fd8a28;--blue:#3d9bff;
+  --display:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;--body:"Patrick Hand","Comic Sans MS",cursive;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--cream);font-family:var(--body);font-size:18px;display:flex;flex-direction:column;
+  background-image:repeating-linear-gradient(45deg,transparent 0 22px,rgba(255,255,255,.025) 22px 44px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:max(14px,env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-bottom,0px));overflow-x:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;max-width:1200px;width:100%;margin:0 auto}
+h1{font-family:var(--display);font-weight:400;margin:0;font-size:clamp(1.3rem,4vw,1.9rem);letter-spacing:.01em}
+h1 b{color:var(--orange);font-weight:400}
+.btn{font-family:var(--display);font-size:16px;color:var(--ink);background:var(--cream);border:3px solid var(--ink);border-radius:6px;padding:8px 14px;
+  text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .1s,box-shadow .1s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn.y{background:var(--yellow)}.btn.o{background:var(--orange)}
+.btn:focus-visible{outline:3px dashed var(--yellow);outline-offset:3px}
+.btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:4px 4px 0 var(--ink)}
+.stage{flex:1;display:grid;place-items:center;min-height:0;padding-block:16px;max-width:1200px;width:100%;margin:0 auto;touch-action:pan-y}
+.frame{width:100%;max-height:100%;aspect-ratio:16/9;max-width:min(100%,calc((100vh - 170px) * 16 / 9));border:4px solid var(--ink);border-radius:8px;
+  box-shadow:8px 8px 0 var(--ink);overflow:hidden;background:var(--bg2);position:relative}
+.frame img{display:block;width:100%;height:100%;object-fit:contain;position:absolute;inset:0}
+.frame img.in{animation:slide .35s cubic-bezier(.34,1.3,.64,1)}
+.frame img.back{animation:slideb .35s cubic-bezier(.34,1.3,.64,1)}
+.bar{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:1200px;width:100%;margin:0 auto}
+.count{font-family:var(--display);font-size:20px;min-width:70px;text-align:center;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:6px;justify-content:center;width:100%;flex-wrap:wrap}
+.dots button{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--cream);opacity:.5;padding:0;cursor:pointer}
+.dots button[aria-current="true"]{background:var(--yellow);opacity:1;transform:scale(1.25)}
+.hint{font-size:15px;opacity:.75;text-align:center;width:100%}
+@keyframes slide{from{transform:translateX(8%) rotate(1deg);opacity:.3}}
+@keyframes slideb{from{transform:translateX(-8%) rotate(-1deg);opacity:.3}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a class="btn" href="./" id="back"></a>
+    <h1><b>Office</b> Together</h1>
+    <a class="btn o" href="Office_Together_Presentacion.pdf" target="_blank" rel="noopener" id="pdf"></a>
+  </div>
+  <div class="stage" id="stage">
+    <div class="frame"><img id="img" src="slides/1.jpg" alt="Diapositiva 1" width="1600" height="900"></div>
+  </div>
+  <div class="bar">
+    <button class="btn y" id="prev" type="button" aria-label="Anterior">◀</button>
+    <div class="count" id="count">1 / 9</div>
+    <button class="btn y" id="next" type="button" aria-label="Siguiente">▶</button>
+    <div class="dots" id="dots"></div>
+    <div class="hint" id="hint"></div>
+  </div>
+<script>
+const N=9,$=s=>document.querySelector(s);
+const L={es:{back:"← Volver",pdf:"PDF ↓",hint:"Deslizá o usá las flechas del teclado"},
+         en:{back:"← Back",pdf:"PDF ↓",hint:"Swipe or use the arrow keys (slides in Spanish)"},
+         pt:{back:"← Voltar",pdf:"PDF ↓",hint:"Deslize ou use as setas (slides em espanhol)"}};
+let lang="es";try{lang=localStorage.getItem("lang")||""}catch(e){}
+if(!L[lang]){const n=(navigator.language||"es").slice(0,2);lang=L[n]?n:"en"}
+document.documentElement.lang=lang;$("#back").textContent=L[lang].back;$("#pdf").textContent=L[lang].pdf;$("#hint").textContent=L[lang].hint;
+for(let i=2;i<=N;i++){const im=new Image();im.src=`slides/${i}.jpg`}
+let cur=1;
+const dots=$("#dots");
+for(let i=1;i<=N;i++){const b=document.createElement("button");b.type="button";b.setAttribute("aria-label",i);b.onclick=()=>go(i);dots.appendChild(b)}
+function go(i){
+  if(i<1||i>N||i===cur&&dots.children[0].hasAttribute("aria-current"))return;
+  const img=$("#img"),dir=i>cur?"in":"back";cur=i;
+  img.src=`slides/${i}.jpg`;img.alt=`Diapositiva ${i}`;img.className="";void img.offsetWidth;img.className=dir;
+  $("#count").textContent=`${i} / ${N}`;$("#prev").disabled=i===1;$("#next").disabled=i===N;
+  [...dots.children].forEach((d,k)=>d.setAttribute("aria-current",k+1===i));
+  try{history.replaceState(null,"",`#${i}`)}catch(e){}
+}
+$("#prev").onclick=()=>go(cur-1);$("#next").onclick=()=>go(cur+1);
+addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();go(cur+1)}if(e.key==="ArrowLeft"){go(cur-1)}});
+let sx=null;const st=$("#stage");
+st.addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true});
+st.addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));sx=null});
+const h=parseInt(location.hash.slice(1));cur=0;go(h>=1&&h<=N?h:1);
+</script>
+</body>
+</html>

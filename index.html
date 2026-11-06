@@ -11,7 +11,7 @@
 <link rel="icon" href="avatar-light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Permanent+Marker&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 /* Layout: un escritorio de oficina. Hoja cuadriculada de fondo, avatar dibujado a mano,
    links como post-its pegados, aviones de papel volando detrás. Una columna, pensada para celular. */
@@ -25,7 +25,7 @@
   --note-b:#9ad8ff;     /* post-it celeste */
   --stamp:#e63946;      /* sello rojo de oficina */
   --shadow:rgba(20,20,20,.18);
-  --display:"Permanent Marker","Comic Sans MS","Marker Felt",cursive;
+  --display:"Lilita One","Permanent Marker","Comic Sans MS","Marker Felt",cursive;
   --body:"Atkinson Hyperlegible",system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
   color-scheme:light;
@@ -87,6 +87,7 @@ h2::after{content:"";flex:1;border-top:2px dashed var(--grid)}
 a.note:hover,a.note:focus-visible{transform:rotate(0deg) translateY(-4px) scale(1.02);box-shadow:0 18px 26px -12px var(--shadow)}
 a.note:active{transform:scale(.97)}
 .note.game{--c:var(--note-y);--r:-2deg;padding-block:26px}
+.note.deck{--c:#fd8a28;--r:1.2deg}
 .note.li{--c:var(--note-b);--r:1.5deg}
 .note.mail{--c:var(--note-p);--r:-1deg;flex-wrap:wrap}
 .ico{flex:none;width:48px;height:48px;display:grid;place-items:center;border:2.5px solid #141414;border-radius:50%;font-family:var(--display);font-size:20px;background:rgba(255,255,255,.5)}
@@ -147,16 +148,21 @@ footer b{font-family:var(--display);font-weight:400;color:var(--ink);font-size:1
       <div class="txt"><strong>Office Together</strong><span data-k="game"></span></div>
       <div class="arrow">→</div>
     </a>
+    <a class="note deck" style="--d:1s" href="presentacion.html">
+      <div class="ico">▤</div>
+      <div class="txt"><strong data-k="deck"></strong><span data-k="deck_sub"></span></div>
+      <div class="arrow">→</div>
+    </a>
   </section>
 
   <section>
     <h2 data-k="h_contact"></h2>
-    <a class="note li" style="--d:1.05s" href="https://www.linkedin.com/in/austinham/" target="_blank" rel="noopener">
+    <a class="note li" style="--d:1.1s" href="https://www.linkedin.com/in/austinham/" target="_blank" rel="noopener">
       <div class="ico">in</div>
       <div class="txt"><strong>Austin Ham</strong><span>LinkedIn</span></div>
       <div class="arrow">→</div>
     </a>
-    <div class="note mail" style="--d:1.2s">
+    <div class="note mail" style="--d:1.25s">
       <div class="ico">@</div>
       <div class="txt"><strong>Email</strong><span class="addr" id="addr">austinham106@gmail.com</span></div>
       <button class="copy" id="copy" type="button" data-k="copy"></button>
@@ -171,11 +177,11 @@ footer b{font-family:var(--display);font-weight:400;color:var(--ink);font-size:1
 </main>
 <script>
 const T={
- es:{hi:"¡Hola! 👋",tag:"Estudio indie de videojuegos",sub:"Hicimos Office Together en una game jam. Jugalo y escribinos.",h_game:"El juego",game:"Jugalo gratis en itch.io",h_contact:"Contacto",copy:"COPIAR",copied:"¡COPIADO!",foot:"Hecho con café en la oficina ☕",
+ es:{hi:"¡Hola! 👋",tag:"Estudio indie de videojuegos",sub:"Hicimos Office Together en una game jam. Jugalo y escribinos.",h_game:"El juego",game:"Jugalo gratis en itch.io",deck:"Presentación",deck_sub:"Cómo funciona el juego, en 9 diapositivas",h_contact:"Contacto",copy:"COPIAR",copied:"¡COPIADO!",foot:"Hecho con café en la oficina ☕",
    pokes:["¡Hola! 👋","¡Ey, eso hace cosquillas!","¿Jugaste Office Together?","Mejor juntos 🤝","¡Otra vez no!"]},
- en:{hi:"Hi there! 👋",tag:"Indie game studio",sub:"We made Office Together at a game jam. Play it and say hi.",h_game:"The game",game:"Play it free on itch.io",h_contact:"Contact",copy:"COPY",copied:"COPIED!",foot:"Made with coffee at the office ☕",
+ en:{hi:"Hi there! 👋",tag:"Indie game studio",sub:"We made Office Together at a game jam. Play it and say hi.",h_game:"The game",game:"Play it free on itch.io",deck:"Pitch deck",deck_sub:"How the game works, in 9 slides",h_contact:"Contact",copy:"COPY",copied:"COPIED!",foot:"Made with coffee at the office ☕",
    pokes:["Hi there! 👋","Hey, that tickles!","Have you played Office Together?","Better together 🤝","Not again!"]},
- pt:{hi:"Olá! 👋",tag:"Estúdio indie de jogos",sub:"Fizemos Office Together numa game jam. Jogue e fale com a gente.",h_game:"O jogo",game:"Jogue grátis no itch.io",h_contact:"Contato",copy:"COPIAR",copied:"COPIADO!",foot:"Feito com café no escritório ☕",
+ pt:{hi:"Olá! 👋",tag:"Estúdio indie de jogos",sub:"Fizemos Office Together numa game jam. Jogue e fale com a gente.",h_game:"O jogo",game:"Jogue grátis no itch.io",deck:"Apresentação",deck_sub:"Como o jogo funciona, em 9 slides",h_contact:"Contato",copy:"COPIAR",copied:"COPIADO!",foot:"Feito com café no escritório ☕",
    pokes:["Olá! 👋","Ei, isso faz cócegas!","Já jogou Office Together?","Melhor juntos 🤝","De novo não!"]}
 };
 let cur="es",poke=0;
